@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "📦 Cloning repository..."
+                git 'https://github.com/AmarAZ59/Jenkins_ec2.git'
+            }
+        }
+
+        stage('Cleanup Stopped EC2 Instances') {
+            steps {
+                echo "🧹 Running cleanup-stopped-ec2.sh script..."
+                sh 'bash cleanup-stopped-ec2.sh'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "✅ Cleanup pipeline finished."
+        }
+    }
+}
