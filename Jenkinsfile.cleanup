@@ -5,14 +5,21 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "📦 Cloning repository..."
-                git 'https://github.com/AmarAZ59/Jenkins_ec2.git'
+                git branch: 'main', url: 'https://github.com/AmarAZ59/Jenkins_ec2.git'
+            }
+        }
+
+        stage('Set Permissions') {
+            steps {
+                echo "🔧 Making cleanup-stopped-ec2.sh executable..."
+                sh 'chmod +x cleanup-stopped-ec2.sh'
             }
         }
 
         stage('Cleanup Stopped EC2 Instances') {
             steps {
                 echo "🧹 Running cleanup-stopped-ec2.sh script..."
-                sh 'bash cleanup-stopped-ec2.sh'
+                sh './cleanup-stopped-ec2.sh'
             }
         }
     }
